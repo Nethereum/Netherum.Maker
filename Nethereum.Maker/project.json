@@ -1,0 +1,17 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Nethereum.Maker Class Library",
+  "authors": [ "JuanFran" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "Nethereum.Web3": "1.0.0-alpha"
+      }
+    }
+    }
+}
+
