@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Nethereum.Web3;
+﻿using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
-using Org.BouncyCastle.Asn1;
+using Nethereum.Web3;
 
-namespace Nethereum.Maker
+namespace Nethereum.Maker.ERC20Token
 {
     public class EthTokenService
     {
@@ -25,57 +21,87 @@ namespace Nethereum.Maker
 
         public async Task<ulong> GetTotalSupplyAsync()
         {
-            var function = contract.GetFunction("totalSuply");
+            var function = GetTotalSupplyFunction();
             return await function.CallAsync<ulong>();
+        }
+
+        private Function GetTotalSupplyFunction()
+        {
+            return contract.GetFunction("totalSuply");
         }
 
         public async Task<ulong> GetBalanceOfAsync(string address)
         {
-            var function = contract.GetFunction("balanceOf");
+            var function = GetBalanceOfFunction();
             return await function.CallAsync<ulong>(address);
+        }
+
+        private Function GetBalanceOfFunction()
+        {
+            return contract.GetFunction("balanceOf");
         }
 
         public async Task<ulong> GetAllowanceAsync(string addressOwner, string addressSpender)
         {
-            var function = contract.GetFunction("allowance");
+            var function = GetAllowanceFunction();
             return await function.CallAsync<ulong>(addressOwner, addressSpender);
+        }
+
+        private Function GetAllowanceFunction()
+        {
+            return contract.GetFunction("allowance");
         }
 
         public async Task TransferAsync(string addressFrom, string addressTo, ulong value, HexBigInteger gas = null)
         {
-            var function = contract.GetFunction("transfer");
+            var function = GetTransferFunction();
             await function.SendTransactionAsync(addressFrom, gas, addressTo, value);
+        }
+
+        private Function GetTransferFunction()
+        {
+            return contract.GetFunction("transfer");
         }
 
         public async Task<bool> TransferAsyncCall(string addressFrom, string addressTo, ulong value)
         {
-            var function = contract.GetFunction("transfer");
+            var function = GetTransferFunction();
             return await function.CallAsync<bool>(addressFrom, addressTo, value);
         }
 
         public async Task TransferFromAsync(string addressFrom, string addressTransferedFrom, string addressTransferedTo,
             ulong value, HexBigInteger gas = null)
         {
-            var function = contract.GetFunction("transferFrom");
+            var function = GetTransferFromFunction();
             await function.SendTransactionAsync(addressFrom, gas, addressTransferedFrom, addressTransferedTo, value);
+        }
+
+        private Function GetTransferFromFunction()
+        {
+            return contract.GetFunction("transferFrom");
         }
 
         public async Task<bool> TransferFromAsyncCall(string addressFrom, string addressTransferedFrom,
             string addressTransferedTo, ulong value)
         {
-            var function = contract.GetFunction("transferFrom");
+            var function = GetTransferFromFunction();
             return await function.CallAsync<bool>(addressFrom, addressTransferedFrom, addressTransferedTo, value);
         }
 
         public async Task ApproveAsync(string addressFrom, string addressSpender, ulong value, HexBigInteger gas = null)
         {
-            var function = contract.GetFunction("approve");
+            var function = GetApproveFunction();
             await function.SendTransactionAsync(addressFrom, gas, addressSpender, value);
+        }
+
+        private Function GetApproveFunction()
+        {
+            return contract.GetFunction("approve");
         }
 
         public async Task<bool> ApproveAsyncCall(string addressFrom, string addressSpender, ulong value)
         {
-            var function = contract.GetFunction("approve");
+            var function = GetApproveFunction();
             return await function.CallAsync<bool>(addressFrom, addressSpender, value);
         }
 
@@ -87,12 +113,6 @@ namespace Nethereum.Maker
         public Event GetTransferEvent()
         {
             return contract.GetEvent("Transfer");
-        }
-
-        public HexBigInteger CreateFilter()
-        {
-            var contEvent = GetApprovalEvent();
-           return null;
         }
 
     }
