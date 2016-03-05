@@ -27,7 +27,7 @@ namespace Nethereum.Maker.ERC20Token
 
         private Function GetTotalSupplyFunction()
         {
-            return contract.GetFunction("totalSuply");
+            return contract.GetFunction("totalSupply");
         }
 
         public async Task<ulong> GetBalanceOfAsync(string address)
@@ -52,10 +52,10 @@ namespace Nethereum.Maker.ERC20Token
             return contract.GetFunction("allowance");
         }
 
-        public async Task TransferAsync(string addressFrom, string addressTo, ulong value, HexBigInteger gas = null)
+        public async Task<string> TransferAsync(string addressFrom, string addressTo, ulong value, HexBigInteger gas = null)
         {
             var function = GetTransferFunction();
-            await function.SendTransactionAsync(addressFrom, gas, addressTo, value);
+           return await function.SendTransactionAsync(addressFrom, gas, null, addressTo, value);
         }
 
         private Function GetTransferFunction()
@@ -69,11 +69,11 @@ namespace Nethereum.Maker.ERC20Token
             return await function.CallAsync<bool>(addressFrom, addressTo, value);
         }
 
-        public async Task TransferFromAsync(string addressFrom, string addressTransferedFrom, string addressTransferedTo,
+        public async Task<string> TransferFromAsync(string addressFrom, string addressTransferedFrom, string addressTransferedTo,
             ulong value, HexBigInteger gas = null)
         {
             var function = GetTransferFromFunction();
-            await function.SendTransactionAsync(addressFrom, gas, addressTransferedFrom, addressTransferedTo, value);
+           return await function.SendTransactionAsync(addressFrom, gas, null, addressTransferedFrom, addressTransferedTo, value);
         }
 
         private Function GetTransferFromFunction()
@@ -91,7 +91,7 @@ namespace Nethereum.Maker.ERC20Token
         public async Task ApproveAsync(string addressFrom, string addressSpender, ulong value, HexBigInteger gas = null)
         {
             var function = GetApproveFunction();
-            await function.SendTransactionAsync(addressFrom, gas, addressSpender, value);
+            await function.SendTransactionAsync(addressFrom, gas, null, addressSpender, value);
         }
 
         private Function GetApproveFunction()
