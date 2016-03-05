@@ -81,6 +81,7 @@ namespace Nethereum.ERC20.Sample
                 Assert.Equal(transferLog.Log.TransactionIndex.HexValue, transferReceipt.TransactionIndex.HexValue);
                 Assert.Equal(transferLog.Log.BlockNumber.HexValue, transferReceipt.BlockNumber.HexValue);
                 Assert.Equal(transferLog.Event.AddressTo, newAddress);
+                Assert.Equal(transferLog.Event.Value, (ulong)1000);
 
             }
             catch(Exception ex)
