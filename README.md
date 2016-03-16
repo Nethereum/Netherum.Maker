@@ -75,6 +75,8 @@ foreach (var transfer in transfers)
 }
 ```
 
+The fully example can be found here: https://github.com/Nethereum/Netherum.Maker/blob/master/Nethereum.Maker.Sample/MakerTokenRegistryServiceTest.cs
+
 
 
 
