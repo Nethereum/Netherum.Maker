@@ -1,4 +1,5 @@
-﻿using Nethereum.ABI.FunctionEncoding.Attributes;
+﻿using System.Numerics;
+using Nethereum.ABI.FunctionEncoding.Attributes;
 
 namespace Nethereum.Maker.ERC20Token.Events.DTO
 {
@@ -11,6 +12,6 @@ namespace Nethereum.Maker.ERC20Token.Events.DTO
         public string AddressSpender { get; set; }
 
         [Parameter("uint", "value", 3)]
-        public ulong Value { get; set; }
+        public BigInteger Value { get; set; }
     }
 }

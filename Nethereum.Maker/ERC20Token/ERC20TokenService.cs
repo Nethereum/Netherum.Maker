@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Numerics;
+using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Web3;
 
@@ -19,10 +20,10 @@ namespace Nethereum.Maker.ERC20Token
             this.contract = web3.Eth.GetContract(abi, address);
         }
 
-        public async Task<ulong> GetTotalSupplyAsync()
+        public async Task<TNumber> GetTotalSupplyAsync<TNumber>()
         {
             var function = GetTotalSupplyFunction();
-            return await function.CallAsync<ulong>();
+            return await function.CallAsync<TNumber>();
         }
 
         private Function GetTotalSupplyFunction()
@@ -30,10 +31,10 @@ namespace Nethereum.Maker.ERC20Token
             return contract.GetFunction("totalSupply");
         }
 
-        public async Task<ulong> GetBalanceOfAsync(string address)
+        public async Task<T> GetBalanceOfAsync<T>(string address)
         {
             var function = GetBalanceOfFunction();
-            return await function.CallAsync<ulong>(address);
+            return await function.CallAsync<T>(address);
         }
 
         private Function GetBalanceOfFunction()
@@ -41,10 +42,10 @@ namespace Nethereum.Maker.ERC20Token
             return contract.GetFunction("balanceOf");
         }
 
-        public async Task<ulong> GetAllowanceAsync(string addressOwner, string addressSpender)
+        public async Task<T> GetAllowanceAsync<T>(string addressOwner, string addressSpender)
         {
             var function = GetAllowanceFunction();
-            return await function.CallAsync<ulong>(addressOwner, addressSpender);
+            return await function.CallAsync<T>(addressOwner, addressSpender);
         }
 
         private Function GetAllowanceFunction()
@@ -52,7 +53,7 @@ namespace Nethereum.Maker.ERC20Token
             return contract.GetFunction("allowance");
         }
 
-        public async Task<string> TransferAsync(string addressFrom, string addressTo, ulong value, HexBigInteger gas = null)
+        public async Task<string> TransferAsync<T>(string addressFrom, string addressTo, T value, HexBigInteger gas = null)
         {
             var function = GetTransferFunction();
            return await function.SendTransactionAsync(addressFrom, gas, null, addressTo, value);
@@ -63,14 +64,14 @@ namespace Nethereum.Maker.ERC20Token
             return contract.GetFunction("transfer");
         }
 
-        public async Task<bool> TransferAsyncCall(string addressFrom, string addressTo, ulong value)
+        public async Task<bool> TransferAsyncCall<T>(string addressFrom, string addressTo, T value)
         {
             var function = GetTransferFunction();
             return await function.CallAsync<bool>(addressFrom, addressTo, value);
         }
 
-        public async Task<string> TransferFromAsync(string addressFrom, string addressTransferedFrom, string addressTransferedTo,
-            ulong value, HexBigInteger gas = null)
+        public async Task<string> TransferFromAsync<T>(string addressFrom, string addressTransferedFrom, string addressTransferedTo,
+            T value, HexBigInteger gas = null)
         {
             var function = GetTransferFromFunction();
            return await function.SendTransactionAsync(addressFrom, gas, null, addressTransferedFrom, addressTransferedTo, value);
@@ -81,14 +82,14 @@ namespace Nethereum.Maker.ERC20Token
             return contract.GetFunction("transferFrom");
         }
 
-        public async Task<bool> TransferFromAsyncCall(string addressFrom, string addressTransferedFrom,
-            string addressTransferedTo, ulong value)
+        public async Task<bool> TransferFromAsyncCall<T>(string addressFrom, string addressTransferedFrom,
+            string addressTransferedTo, T value)
         {
             var function = GetTransferFromFunction();
             return await function.CallAsync<bool>(addressFrom, addressTransferedFrom, addressTransferedTo, value);
         }
 
-        public async Task ApproveAsync(string addressFrom, string addressSpender, ulong value, HexBigInteger gas = null)
+        public async Task ApproveAsync<T>(string addressFrom, string addressSpender, T value, HexBigInteger gas = null)
         {
             var function = GetApproveFunction();
             await function.SendTransactionAsync(addressFrom, gas, null, addressSpender, value);
@@ -99,7 +100,7 @@ namespace Nethereum.Maker.ERC20Token
             return contract.GetFunction("approve");
         }
 
-        public async Task<bool> ApproveAsyncCall(string addressFrom, string addressSpender, ulong value)
+        public async Task<bool> ApproveAsyncCall<T>(string addressFrom, string addressSpender, T value)
         {
             var function = GetApproveFunction();
             return await function.CallAsync<bool>(addressFrom, addressSpender, value);

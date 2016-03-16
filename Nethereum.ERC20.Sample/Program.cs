@@ -12,7 +12,5 @@ namespace Nethereum.ERC20.Sample
             var erc20TokenTester = new Erc20TokenTester();
             Console.WriteLine(erc20TokenTester.Test().Result);
         }
-
-
     }
 }

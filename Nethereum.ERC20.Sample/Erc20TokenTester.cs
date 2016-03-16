@@ -58,20 +58,20 @@ namespace Nethereum.ERC20.Sample
                 var transfersEvent = tokenService.GetTransferEvent();
               
 
-                var totalSupplyDeployed = await tokenService.GetTotalSupplyAsync();
+                var totalSupplyDeployed = await tokenService.GetTotalSupplyAsync<ulong>();
                 Assert.Equal(totalSupply, totalSupplyDeployed);
 
-                var ownerBalance = await tokenService.GetBalanceOfAsync(addressOwner);
+                var ownerBalance = await tokenService.GetBalanceOfAsync<ulong>(addressOwner);
                 Assert.Equal(totalSupply, ownerBalance);
 
-                transactionHash = await tokenService.TransferAsync(addressOwner, newAddress, 1000);
+               transactionHash = await tokenService.TransferAsync(addressOwner, newAddress, 1000);
                 //wait to be mined
                var transferReceipt = await GetTransactionReceiptAsync(transactions, transactionHash);
 
-                ownerBalance = await tokenService.GetBalanceOfAsync(addressOwner);
+                ownerBalance = await tokenService.GetBalanceOfAsync<ulong>(addressOwner);
                 Assert.Equal(totalSupply - 1000, ownerBalance);
 
-                var newAddressBalance = await tokenService.GetBalanceOfAsync(newAddress);
+                var newAddressBalance = await tokenService.GetBalanceOfAsync<ulong>(newAddress);
                 Assert.Equal((ulong) 1000, newAddressBalance);
 
                 var allTransfersFilter = await transfersEvent.CreateFilterAsync(new BlockParameter(3000));
