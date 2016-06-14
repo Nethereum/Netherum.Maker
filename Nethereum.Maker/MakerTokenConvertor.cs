@@ -1,21 +1,13 @@
 using System;
 using System.Numerics;
+using Nethereum.Web3;
 
 namespace Nethereum.Maker.ERC20Token
 {
     public class MakerTokenConvertor
     {
 
-        private const long MakerMeiUnitValue = 1000000000000000000;
-
-        private int CalculateNumberOfDecimalPlaces(decimal value, int currentNumberOfDecimals = 0)
-        {
-            decimal multiplied = (decimal)((double)value * Math.Pow(10, currentNumberOfDecimals));
-            if (Math.Round(multiplied) == multiplied)
-                return currentNumberOfDecimals;
-            return CalculateNumberOfDecimalPlaces(value, currentNumberOfDecimals + 1);
-        }
-
+        private const long MakerMeiUnitValue = 18;
         /// <summary>
         /// Mei like Wei is the smallest unit for Maker 
         /// </summary>
@@ -23,19 +15,12 @@ namespace Nethereum.Maker.ERC20Token
         /// <returns></returns>
         public BigInteger ConvertToMei(decimal makerAmount)
         {
-            var decimalPlaces = CalculateNumberOfDecimalPlaces(makerAmount);
-            if (decimalPlaces == 0) return BigInteger.Multiply(new BigInteger(makerAmount), MakerMeiUnitValue);
-
-            var decimalConversionUnit = (decimal)Math.Pow(10, decimalPlaces);
-
-            var makerAmountFromDec = new BigInteger(makerAmount * decimalConversionUnit);
-            var meiUnitFromDec = new BigInteger(MakerMeiUnitValue / decimalConversionUnit);
-            return makerAmountFromDec * meiUnitFromDec;
+            return UnitConversion.Convert.ToWei(makerAmount, 18);
         }
 
         public decimal ConvertFromMei(BigInteger meiAmount)
         {
-            return (decimal)meiAmount / MakerMeiUnitValue;
+            return UnitConversion.Convert.FromWei(meiAmount, 18);
         }
     }
 }

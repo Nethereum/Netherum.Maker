@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Web3;
+using Nethereum.StandardTokenEIP20;
 
 namespace Nethereum.Maker.ERC20Token
 {
@@ -11,7 +12,6 @@ namespace Nethereum.Maker.ERC20Token
             public const string MORDEN = "0x9e2a411a0eb749fa380497bdcd97dedee5514c8d";
 
         }
-
         public static class MakerTokenSymbols
         {
             public const string MKR = "MKR";
@@ -47,10 +47,10 @@ namespace Nethereum.Maker.ERC20Token
 
         }
 
-        public async Task<EthTokenService> GetEthTokenServiceAsync(string symbol)
+        public async Task<StandardTokenService> GetEthTokenServiceAsync(string symbol)
         {
             var tokenAddress = await GetTokenAsyncCall(symbol);
-            return new EthTokenService(web3, tokenAddress);
+            return new StandardTokenService(web3, tokenAddress);
         } 
     }
 }
